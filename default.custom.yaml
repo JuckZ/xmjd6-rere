@@ -3,3 +3,20 @@ patch:
     - schema: xmjd6
   menu:
     page_size: 5
+  switcher:
+    caption: "「切换方案」"
+    hotkeys:
+      - Control+grave
+      - Control+Shift+grave
+      - F4
+    save_options:
+      - full_shape
+      - ascii_punct
+      - simplification
+      - extended_charset
+      - zh_hant
+      - zh_hans
+      - zh_hant_tw
+    fold_options: true
+    abbreviate_options: true
+    option_list_separator: '／'
