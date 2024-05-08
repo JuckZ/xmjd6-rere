@@ -45,14 +45,18 @@ runs:
 
         git remote add upstream ${{ inputs.upstream }}
         git fetch upstream
+        echo $(ls -la)
 
         git checkout upstream_${UPSTREAM_BRANCH} 2>/dev/null || git checkout -b upstream_${UPSTREAM_BRANCH}
+        echo $(ls -la)
         
         echo "## checking out the upstream branch"
         git reset --hard upstream/${UPSTREAM_BRANCH}
+        echo $(ls -la)
 
         git push --force --set-upstream origin upstream_${UPSTREAM_BRANCH}
         gh pr create --fill || exit 0
+        
     - name: dispatch
       uses: peter-evans/repository-dispatch@v3
       with:
