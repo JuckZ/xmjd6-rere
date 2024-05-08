@@ -19,5 +19,5 @@ jobs:
         uses: ./.github/actions/action-rebase
         with:
           upstream: https://github.com/hugh7007/xmjd6-rere.git
-          upstream-branch: master
+          upstream-branch: main
           token: ${{ secrets.DISPATCH_TOKEN }}
