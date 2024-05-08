@@ -1,11 +1,28 @@
 #功能开关一键配置
 patch:
   schema/name: 🌟🐈   #修改方案名称，显示在空格上的名字
+  schema_list/+:
+    - schema: xmjd6
   speller/auto_select: false    #自动上屏开关，默认关
   hint_text: ''    #顶功提示符
-  #                         0选择第一个,1选择第二个
-  switches/@0/reset: 0     #[ 中文, 西文 ]
-  switches/@1/reset: 0     #[ 全角, 半角 ]
+  menu/page_size: 5
+  switcher/hotkeys:
+    # - Control+grave
+    # - Control+Shift+grave
+    - F4
+  switcher/save_options:
+    - full_shape
+    - ascii_punct
+    - simplification
+    - extended_charset
+    - zh_hant
+    - zh_hans
+    - zh_hant_tw
+  switcher/fold_options: true
+  switcher/abbreviate_options: true
+  switcher/option_list_separator: '／'
+  switches/@0/reset: 1     #[ 中文, 西文 ]
+  switches/@1/reset: 1     #[ 全角, 半角 ]
   switches/@2/reset: 0     #[ 简体, 繁體 ]
   switches/@3/reset: 0     #[ 地球文, 火星文 ]
   switches/@4/reset: 1     #[ 简约, 表情展示  
@@ -14,9 +31,48 @@ patch:
   switches/@7/reset: 1     #[ 简约, 逐码展示 ]
 
 
+  engine/translators/+:
+    - table_translator@melt_eng                          # 英文输入（作为子翻译器，优先级需要比原生的低）
+    - table_translator@cn_en                             # 中英混合词汇
+  engine/filters/@before last:
+    - lua_filter@*reduce_english_filter                  # 降低部分英语单词在候选项的位置
+  
   #流式功能配置，想使用流式请取消以下注释，取消注释删掉 # 即可
   
   # engine/processors/@4: null
   # engine/processors/@5: null
   # translator/enable_sentence: true 
   # translator/enable_user_dict: true
+
+  # Lua 配置: 降低部分英语单词在候选项的位置。
+  # 详细介绍 https://dvel.me/posts/make-rime-en-better/#短单词置顶的问题
+  # 正常情况： 输入 rug 得到 「1.rug 2.如果 …… 」
+  # 降低之后： 输入 rug 得到 「1.如果 2.rug …… 」
+  # 几种模式：
+  # all     使用 reduce_english_filter 自带的降频词库（降低所有 3~4 位长度、前 2~3 位是完整拼音、最后一位是声母的单词）
+  # none    不降低任何单词，相当于没有启用这个 Lua
+  # custom  自定义，只降低 words 里的
+  # 『留白』 不设置该选项，使用 reduce_english_filter 内全局设置内容
+  # （匹配的是编码，不是单词）
+  reduce_english_filter:
+    mode: all  # all | none | custom | 『留白』
+    idx: 2        # 降低到第 idx 个位置
+    # 自定义的单词列表，示例列表没有降低部分常用单词，如 and cat mail Mac but bad shit ……
+    words: [aid, ann,
+    bail, bait, bam, band, bans, bat, bay, bend, bent, benz, bib, bid, bien, biz, boc, bop, bos, bud, buf,
+    cab, cad, cain, cam, cans, cap, cas, cef, chad, chan, chap, chef, cher, chew, chic, chin, chip, chit, coup, cum, cunt, cur,
+    dab, dag, dal, dam, dent, dew, dial, diet, dim, din, dip, dis, dit, doug, dub, dug, dunn,
+    fab, fax, fob, fog, foul, fur,
+    gag, gail, gain, gal, gam, gaol, ged, gel, ger, guam, gus, gut,
+    hail, ham, hank, hans, hat, hay, heil, heir, hem, hep, hud, hum, hung, hunk, hut,
+    jim, jug,
+    kat,
+    lab, lad, lag, laid, lam, laos, lap, lat, lax, lay, led, leg, lex, liam, lib, lid, lied, lien, lies, linn, lip, lit, liz, lob, lug, lund, lung, lux,
+    mag, maid, mann, mar, mat, med, mel, mend, mens, ment, mil, mins, mint, mob, moc, mop, mos, mot, mud, mug, mum, nail,
+    nap, nat, nay, neil, nib, nip, noun, nous, nun, nut,
+    pac, paid, pail, pain, pair, pak, pal, pam, pans, pant, pap, par, pat, paw, pax, pens, pic, pier, pies, pins, pint, pit, pix, pod, pop, pos, pot, pour, pow, pub,
+    rand, rant, rent, rep, res, ret, rex, rib, rid, rig, rim, rub, rug, rum, runc, runs,
+    sac, sail, sal, sam, sans, sap, saw, sax, sew, sham, shaw, shin, sig, sin, sip, sis, suit, sung, suns, sup, sur, sus,
+    tad, tail, taj, tar, tax, tec, ted, tel, ter, tex, tic, tied, tier, ties, tim, tin, tit, tour, tout, tum,
+    wag, wand, womens, wap, wax, weir, won,
+    yan, yen]
