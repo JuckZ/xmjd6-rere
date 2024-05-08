@@ -8,11 +8,15 @@ recipe:
 install_files: >-
   *.schema.yaml
   *.dict.yaml
+  *.custom.yaml
+  *.symbols.yaml
+  hamster*.yaml
   *.txt
   opencc/**/*.*
   rime.lua?
   lua/**/*.*
   theme/**/*.*
+  theme/**/**/*.*
   default.yaml
   squirrel.yaml
   weasel.yaml
