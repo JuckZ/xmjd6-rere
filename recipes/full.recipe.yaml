@@ -9,9 +9,10 @@ install_files: >-
   *.schema.yaml
   *.dict.yaml
   *.txt
-  opencc/*.*
-  rime.lua
-  lua/*.*
+  opencc/**/*.*
+  rime.lua?
+  lua/**/*.*
+  theme/**/*.*
   default.yaml
   squirrel.yaml
   weasel.yaml
