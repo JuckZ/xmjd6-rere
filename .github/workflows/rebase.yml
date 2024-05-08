@@ -18,7 +18,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
       - name: rebase
-        uses: ./.github/actions/rebase
+        uses: JuckZ/actions/rebase@main
         with:
           upstream: https://github.com/hugh7007/xmjd6-rere.git
           upstream-branch: main
