@@ -16,7 +16,7 @@ jobs:
       contents: write
     steps:
       - name: rebase
-        uses: ./.github/actions/action-rebase
+        uses: ./.github/actions/rebase
         with:
           upstream: https://github.com/hugh7007/xmjd6-rere.git
           upstream-branch: main
